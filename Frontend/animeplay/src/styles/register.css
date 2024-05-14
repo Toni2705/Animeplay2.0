@@ -1,0 +1,76 @@
+/* registro.css */
+
+body {
+    background-color: #141414; /* Color de fondo negro */
+    font-family: Arial, sans-serif;
+  }
+  
+  .registro-container {
+    margin: 100px auto;
+    width: 300px;
+    padding: 20px;
+    background-color: #333; /* Color de fondo gris oscuro */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Centrar elementos en el contenedor */
+  }
+  
+  .registro-header {
+    margin-bottom: 20px;
+    color: #ff6600; /* Color naranja */
+  }
+  
+  .registro-form {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Alineación de texto a la izquierda */
+  }
+  
+  .form-label {
+    display: block;
+    color: #fff; /* Color de texto blanco */
+    margin-bottom: 5px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333; 
+    color: #fff; 
+    border: 1px solid #555; 
+    border-radius: 5px;
+    box-sizing: border-box; 
+  }
+  
+  .registro-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ff6600; 
+    color: black; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .registro-button:hover {
+    background-color: #e65c00; 
+  }
+  
+  .login-link {
+    color: #fff; 
+  }
+  
+  .login-link a {
+    color: #ff6600; 
+    text-decoration: none;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  

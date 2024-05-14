@@ -1,0 +1,74 @@
+body {
+    background-color: #141414; 
+    font-family: Arial, sans-serif;
+  }
+  
+  .login-container {
+    margin: 100px auto;
+    width: 300px;
+    padding: 20px;
+    background-color: #333; 
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .login-header {
+    margin-bottom: 20px;
+    color: #ff6600;
+  }
+  
+  .login-form {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .form-label {
+    display: block;
+    color: #fff;
+    margin-bottom: 5px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555; 
+    border-radius: 5px;
+    box-sizing: border-box; 
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ff6600; /* Color de fondo naranja */
+    color: black; /* Color de texto blanco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #e65c00; /* Color de fondo naranja oscuro al pasar el ratón */
+  }
+  
+  .register-link {
+    color: #fff; /* Color de texto blanco */
+  }
+  
+  .register-link a {
+    color: #ff6600; /* Color naranja */
+    text-decoration: none;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
