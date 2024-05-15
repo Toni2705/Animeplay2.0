@@ -15,7 +15,7 @@ exports.login = async (req, res) => {
       }
   
       // Usuario y contraseña son válidos
-      return res.status(200).json({ message: 'Inicio de sesión exitoso', user });
+      return res.status(200).json({ message: 'Inicio de sesión exitoso', user: user });
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       return res.status(500).json({ message: 'Error interno del servidor' });

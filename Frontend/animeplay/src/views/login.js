@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Registro from './register';
+import { Navigate } from 'react-router-dom';
 import '../styles/login.css'; 
 
 const Login = () => {
   const [usuario, setUsername] = useState('');
   const [contraseña, setPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,17 +22,24 @@ const Login = () => {
       });
 
       if (response.ok) {
-        // El inicio de sesión fue exitoso, manejar la respuesta aquí
+        setLoggedIn(true);
+
+        // El inicio de sesión fue exitoso
         const data = await response.json();
         console.log('Respuesta del backend:', data);
+        sessionStorage.setItem('Usuario',JSON.stringify(data.user))
       } else {
-        // El inicio de sesión falló, manejar el error aquí
+        // El inicio de sesión falló
         console.error('Error en inicio de sesión:', response.statusText);
       }
     } catch (error) {
       console.error('Error en inicio de sesión:', error.message);
     }
   };
+  if (loggedIn) {
+
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="login-container">

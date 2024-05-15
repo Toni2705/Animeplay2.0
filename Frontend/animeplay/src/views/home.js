@@ -1,8 +1,9 @@
-import React from 'react';
 import Header from '../components/header';
+import HeaderLogueado from '../components/headerLogueado';
 import '../styles/home.css'; 
 import BannerKimetsu from '../img/banner-kimetsu.jpg';
 import BannerHaikyuu from '../img/banner-haikyuu.png';
+import React, { useEffect, useState } from 'react';
 import BannerBlueLock from '../img/banner-blue-lock.jpg';
 let index = 0,
   sliders,
@@ -42,9 +43,18 @@ function showSlides(n) {
 }
 
 function Home() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const isLoggedInSession = sessionStorage.getItem('Usuario') !== null
+      if (isLoggedInSession){
+        setIsLoggedIn(isLoggedInSession);
+      }
+      
+      ;
+    }, []);
   return (
     <div>
-      <Header />
+      {isLoggedIn ? <HeaderLogueado /> : <Header />}
       <div className="slideshow-container">
         <div className="mySlides fade">
           <div className="numbertext">1 / 3</div>
