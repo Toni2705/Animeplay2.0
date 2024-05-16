@@ -21,4 +21,26 @@ exports.login = async (req, res) => {
       return res.status(500).json({ message: 'Error interno del servidor' });
     }
   };
+
+  exports.registro = async (req, res) => {
+  const { usuario, contraseña, email } = req.body;
+  const suscrito = false;
+
+  try {
+    // Verificar si el usuario ya existe en la base de datos
+    const existingUser = await User.findOne({ where: { usuario } });
+    if (existingUser) {
+      return res.status(400).json({ message: 'El usuario ya existe' });
+    }
+
+    // Crear un nuevo usuario en la base de datos
+    const newUser = await User.create({ email, usuario, contraseña, suscrito });
+    
+    // Enviar una respuesta exitosa
+    return res.status(201).json({ message: 'Usuario registrado exitosamente', user: newUser });
+  } catch (error) {
+    console.error('Error en registro:', error);
+    return res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
   

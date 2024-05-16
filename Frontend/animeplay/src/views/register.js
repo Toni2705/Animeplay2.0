@@ -1,45 +1,89 @@
 import React, { useState } from 'react';
 import '../styles/register.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Navigate } from 'react-router-dom';
+
+const customToastStyle = {
+  backgroundColor: '#333',
+  color: '#ffffff',
+};
+
+// Configuración para las notificaciones de toast
+const customToastConfig = {
+  style: customToastStyle,
+  progressStyle: {
+    backgroundColor: '#ff6600',
+  },
+};
+
 
 const Registro = ({ history }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [usuario, setUsername] = useState('');
+  const [contraseña, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleRegistro = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/registro', {
+      console.log(usuario, contraseña, email)
+      const response = await fetch('http://localhost:3001/api/register', { // Cambiar la URL según la configuración de tu backend
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, usuario, contraseña})
       });
 
       if (response.ok) {
-        // El registro fue exitoso, redirigir al usuario a la página de inicio de sesión
-        history.push('/login');
+        setLoggedIn(true)
+        console.log(loggedIn)
+
+        // El inicio de sesión fue exitoso
+        const data = await response.json();
+        console.log('Respuesta del backend:', data);
+        sessionStorage.setItem('Usuario',JSON.stringify(data.user))
+
       } else {
-        // El registro falló, manejar el error aquí
-        console.error('Error en registro:', response.statusText);
+        // El inicio de sesión falló
+        toast.error('Error, usuario ya registrado. Por favor, verifica tus credenciales.', customToastConfig);
+        console.error('Error en el registro:', response.statusText);
       }
     } catch (error) {
-      console.error('Error en registro:', error.message);
+      toast.error('Error en el registro. Por favor, intenta nuevamente más tarde.', customToastConfig);
+      console.error('Error en el registro:', error.message);
     }
   };
+  if (loggedIn) {
+
+    return <Navigate to="/" />;
+  }
+  
 
   return (
     <div className="registro-container">
-      <h2 className="registro-header">¡Registrate aquí!</h2>
+      <ToastContainer />
+      <h2 className="registro-header">¡Regístrate aquí!</h2>
       <form className="registro-form" onSubmit={handleRegistro}>
         <div className="form-group">
           <label htmlFor="username" className="form-label">Nombre de usuario:</label>
           <input
             type="text"
             id="username"
-            value={username}
+            value={usuario}
             onChange={(e) => setUsername(e.target.value)}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">Correo electrónico:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="form-input"
           />
         </div>
@@ -48,7 +92,7 @@ const Registro = ({ history }) => {
           <input
             type="password"
             id="password"
-            value={password}
+            value={contraseña}
             onChange={(e) => setPassword(e.target.value)}
             className="form-input"
           />

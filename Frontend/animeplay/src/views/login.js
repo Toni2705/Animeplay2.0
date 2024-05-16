@@ -2,6 +2,21 @@ import React, { useState } from 'react';
 import Registro from './register';
 import { Navigate } from 'react-router-dom';
 import '../styles/login.css'; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const customToastStyle = {
+  backgroundColor: '#333',
+  color: '#ffffff',
+};
+
+// Configuración para las notificaciones de toast
+const customToastConfig = {
+  style: customToastStyle,
+  progressStyle: {
+    backgroundColor: '#ff6600',
+  },
+};
 
 const Login = () => {
   const [usuario, setUsername] = useState('');
@@ -30,9 +45,11 @@ const Login = () => {
         sessionStorage.setItem('Usuario',JSON.stringify(data.user))
       } else {
         // El inicio de sesión falló
+        toast.error('Error en inicio de sesión. Por favor, verifica tus credenciales.', customToastConfig);
         console.error('Error en inicio de sesión:', response.statusText);
       }
     } catch (error) {
+      toast.error('Error en inicio de sesión. Por favor, intenta nuevamente más tarde.', customToastConfig);
       console.error('Error en inicio de sesión:', error.message);
     }
   };
@@ -43,6 +60,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <ToastContainer />
       <h2 className="login-header">¡Iniciar sesión!</h2>
       <form onSubmit={handleLogin} className="login-form">
         <div className="form-group">
