@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../styles/header.css';
-import logo from '../img/logo.png'; 
 import { Link } from 'react-router-dom';
 function Header() {
   const [expanded, setExpanded] = useState(false); 
@@ -29,13 +28,12 @@ function Header() {
     <header className="header">
       <div className="header-container">
         <div className="logo">
-          <img src={logo} alt="Logo" className="logo-image" />
+        <img src="http://localhost:3001/images/logo.png" alt="Logo" className="logo-image" />
         </div>
         <nav className="nav">
           <ul className="nav-list">
-            <li className="nav-item"><a href="#" className="nav-link">Inicio</a></li>
-            <li className="nav-item"><a href="#" className="nav-link">Anime</a></li>
-            <li className="nav-item"><a href="#" className="nav-link">Manga</a></li>
+            <li className="nav-item"><Link to="/"className='link' >Inicio</Link></li>
+            <li className="nav-item"><Link to="/animes"className='link' >Animes</Link></li>
           </ul>
         </nav>
         <div className={`search ${expanded ? 'expanded' : ''}`}>

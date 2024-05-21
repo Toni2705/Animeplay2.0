@@ -1,10 +1,8 @@
 import Header from '../components/header';
 import HeaderLogueado from '../components/headerLogueado';
 import '../styles/home.css'; 
-import BannerKimetsu from '../img/banner-kimetsu.jpg';
-import BannerHaikyuu from '../img/banner-haikyuu.png';
 import React, { useEffect, useState } from 'react';
-import BannerBlueLock from '../img/banner-blue-lock.jpg';
+import { Link } from 'react-router-dom';
 let index = 0,
   sliders,
   timer;
@@ -44,33 +42,51 @@ function showSlides(n) {
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [animes, setAnimes] = useState([])
   useEffect(() => {
-    const isLoggedInSession = sessionStorage.getItem('Usuario') !== null
-      if (isLoggedInSession){
-        setIsLoggedIn(isLoggedInSession);
-      }
-      
-      ;
-    }, []);
+    const isLoggedInSession = sessionStorage.getItem('Usuario') !== null;
+    if (isLoggedInSession) {
+      setIsLoggedIn(isLoggedInSession);
+    }
+
+    fetch('http://localhost:3001/api/animes') // Realizar una solicitud GET para obtener los datos de los animes
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Error al obtener los datos de los animes');
+      })
+      .then(data => {
+        setAnimes(data.animes); // Almacenar los datos de los animes en el estado
+      })
+      .catch(error => {
+        console.error('Error de solicitud:', error);
+      });
+  }, []);
   return (
     <div>
       {isLoggedIn ? <HeaderLogueado /> : <Header />}
       <div className="slideshow-container">
         <div className="mySlides fade">
-          <div className="numbertext">1 / 3</div>
-          <img src={BannerBlueLock} style={{ width: '100%' }} alt='Banner Blue Lock' />
+          <div className="numbertext">1 / 4</div>
+          <img src="http://localhost:3001/images/banner1.jpg" style={{ width: '100%' }} alt='Banner Blue Lock' />
           <div className="text"></div>
         </div>
         
         <div className="mySlides fade">
-          <div className="numbertext">2 / 3</div>
-          <img src={BannerKimetsu} style={{ width: '100%' }} alt="Banner Kimestu No Yaiba" />
+          <div className="numbertext">2 / 4</div>
+          <img src="http://localhost:3001/images/banner2.jpg" style={{ width: '100%' }} alt="Banner Kimestu No Yaiba" />
           <div className="text"></div>
         </div>
         
         <div className="mySlides fade">
-          <div className="numbertext">3 / 3</div>
-          <img src={BannerHaikyuu} style={{ width: '100%' }} alt='Banner Haikyuu' />
+          <div className="numbertext">3 / 4</div>
+          <img src="http://localhost:3001/images/banner3.jpg" style={{ width: '100%' }} alt='Banner Haikyuu' />
+          <div className="text"></div>
+        </div>
+        <div className="mySlides fade">
+          <div className="numbertext">4 / 4</div>
+          <img src="http://localhost:3001/images/banner4.png" style={{ width: '100%' }} alt='Banner Haikyuu' />
           <div className="text"></div>
         </div>
         
@@ -79,6 +95,16 @@ function Home() {
       </div>
       <div className="populares">
         <h3>¡Animes más populares!</h3>
+        <div className="anime-container">
+        {animes.filter(anime => anime.destacado).map(anime => (
+            <div key={anime.id} className="anime-card">
+               <Link className='link' to={`/animes/${anime.id}`}>
+              <img src={`http://localhost:3001/images/${anime.cartel}`} alt="Cartel" />
+              <div className="titulo">{anime.titulo}</div>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
