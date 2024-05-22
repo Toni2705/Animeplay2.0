@@ -9,9 +9,9 @@ function Footer({ fixed }) {
                 <p>&copy; 2024 AnimePlay. Todos los derechos reservados.</p>
                 <p>Desarrollado por AnimePlay Team</p>
                 <p>
-                    <a href="/terminos">Términos y Condiciones</a> | 
-                    <a href="/privacidad"> Política de Privacidad</a> | 
-                    <a href="/contacto"> Contacto</a>
+                    <a href="#">Términos y Condiciones</a> | 
+                    <a href="#"> Política de Privacidad</a> | 
+                    <a href="#"> Contacto</a>
                 </p>
             </div>
         </footer>

@@ -9,7 +9,7 @@
     width: 100%;
   }
   .footer-fixed {
-    border: 2px white solid;
+    border: 1px white solid;
     position: absolute;
     bottom: 0;
   }

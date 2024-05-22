@@ -1,5 +1,5 @@
 // VideoPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/headerLogueado'; 
 import '../styles/video.css'; 
@@ -11,13 +11,18 @@ import Footer from '../components/footer';
 function VideoPage() {
     const [anime, setAnime] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const videoRef = useRef(null);
     const { id } = useParams();
-    console.log({id})
+
     useEffect(() => {
+        
+       
         const isLoggedInSession = sessionStorage.getItem('Usuario') !== null;
+        
         if (isLoggedInSession) {
           setIsLoggedIn(isLoggedInSession);
         }
+        
         const fetchAnime = async () => {
           try {
             const response = await fetch(`http://localhost:3001/api/animes/${id}`);
@@ -27,36 +32,77 @@ function VideoPage() {
             console.error('Error al obtener el anime:', error);
           }
         };
-    
+
         fetchAnime();
-      }, [id]);
-      if (!anime) {
+
+
+
+    }, [id]);
+
+    useEffect(() => {
+      const storedTime = sessionStorage.getItem(`videoTime_${id}`);
+      console.log(storedTime)
+      if (videoRef.current) {
+        videoRef.current.addEventListener('loadedmetadata', () => {
+            if (storedTime !== null) {
+                const time = parseInt(storedTime);
+                console.log(time)
+                    videoRef.current.currentTime = time;
+                    console.warn("El tiempo almacenado no es válido.");
+                
+            }
+        });
+    }
+        const handleBeforeUnload = () => {
+            if (videoRef.current) {
+                const currentTime = Math.floor(videoRef.current.currentTime);
+                sessionStorage.setItem(`videoTime_${id}`, currentTime);
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [id]);
+
+    const handleVideoTimeChange = () => {
+        if (videoRef.current) {
+            const currentTime = Math.floor(videoRef.current.currentTime);
+            sessionStorage.setItem(`videoTime_${id}`, currentTime);
+        }
+    };
+
+    if (!anime) {
         return <div>Cargando...</div>;
-      }
-  return (
-    <div>
-      <Header />
-      <div className="video-container">
-        <iframe
-          title={anime.titulo}
-          src={`http://localhost:3001/images/${anime.video}`}
-          frameBorder="0"
-          allowFullScreen
-        ></iframe>
-      </div>
-      <div className="anime-details">
-        <img src={`http://localhost:3001/images/${anime.cartel}`} alt="Cartel del anime" />
-        <div className="anime-info">
-          <h2>{anime.titulo}</h2>
-          <p>{anime.descripcion}</p>
-          <p><strong>Año:</strong> {anime.year_emision}</p>
-          
-          
+    }
+
+    return (
+        <div>
+            <Header />
+            <div className="video-container">
+                <video
+                    ref={videoRef}
+                    controls
+                    autoPlay
+                    onTimeUpdate={handleVideoTimeChange}
+                >
+                    <source src={`http://localhost:3001/images/${anime.video}`} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div className="anime-details">
+                <img src={`http://localhost:3001/images/${anime.cartel}`} alt="Cartel del anime" />
+                <div className="anime-info">
+                    <h2>{anime.titulo}</h2>
+                    <p>{anime.descripcion}</p>
+                    <p><strong>Año:</strong> {anime.year_emision}</p>
+                </div>
+            </div>
+            <Footer />
         </div>
-    </div>
-    <Footer />
-    </div>
-  );
+    );
 }
 
 export default VideoPage;
