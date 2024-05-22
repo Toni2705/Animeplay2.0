@@ -54,11 +54,17 @@ exports.getAnimeById = async (req, res) => {
 exports.getSuggestedAnimes = async (req, res) => {
   try {
     const { id } = req.params;
+    const totalCount = await Anime.count();
+    let randomIndex = Math.floor(Math.random() * totalCount);
+    if((randomIndex + 4) >= totalCount){
+      randomIndex = 0;
+    }
     const suggestedAnimes = await Anime.findAll({
       where: {
-        id: { [Op.not]: parseInt(id) } 
+        id: { [Op.not]: id },
       },
-      limit: 5 
+      offset: randomIndex,
+      limit: 5,
     });
     res.status(200).json({ suggestedAnimes });
   } catch (error) {

@@ -73,13 +73,14 @@
   }
   
   .anime-card1 {
+    margin-right: 20px;
     margin: 10px; 
     text-align: center; 
   }
   
   .anime-card1 img {
-    width: 70%; 
-    height: auto; 
+    width: 160px; 
+    height: 240px; 
   }
   
   .titulo {
