@@ -3,6 +3,7 @@ import '../styles/register.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate } from 'react-router-dom';
+import Footer from '../components/footer';
 
 const customToastStyle = {
   backgroundColor: '#333',
@@ -63,7 +64,7 @@ const Registro = ({ history }) => {
   
 
   return (
-    <div className="registro-container">
+    <><div className="registro-container">
       <ToastContainer />
       <h2 className="registro-header">¡Regístrate aquí!</h2>
       <form className="registro-form" onSubmit={handleRegistro}>
@@ -74,8 +75,7 @@ const Registro = ({ history }) => {
             id="username"
             value={usuario}
             onChange={(e) => setUsername(e.target.value)}
-            className="form-input"
-          />
+            className="form-input" />
         </div>
         <div className="form-group">
           <label htmlFor="email" className="form-label">Correo electrónico:</label>
@@ -84,8 +84,7 @@ const Registro = ({ history }) => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="form-input"
-          />
+            className="form-input" />
         </div>
         <div className="form-group">
           <label htmlFor="password" className="form-label">Contraseña:</label>
@@ -94,14 +93,13 @@ const Registro = ({ history }) => {
             id="password"
             value={contraseña}
             onChange={(e) => setPassword(e.target.value)}
-            className="form-input"
-          />
+            className="form-input" />
         </div>
         <button type="submit" className="registro-button">Registrarse</button>
       </form>
       <h4 className="login-link">¿Ya tienes cuenta de AnimePlay?</h4>
       <h4 className="login-link"><a href="/login">¡Inicia sesión aquí!</a></h4>
-    </div>
+    </div><Footer fixed={true} /></>
   );
 };
 

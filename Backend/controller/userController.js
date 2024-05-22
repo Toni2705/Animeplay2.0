@@ -43,4 +43,21 @@ exports.login = async (req, res) => {
     return res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
+exports.suscribirse = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const usuario = await User.findOne({ where: { id } });
+    
+    if (!usuario) {
+      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+    }
+    usuario.suscrito = true;
+    await usuario.save();
+    return res.status(200).json({ success: true, message: 'Usuario suscrito correctamente' });
+  } catch (error) {
+    console.error('Error al suscribirse:', error);
+    return res.status(500).json({ success: false, message: 'Error interno del servidor' });
+  }
+};
   

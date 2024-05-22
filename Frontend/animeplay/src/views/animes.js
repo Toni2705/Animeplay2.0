@@ -4,6 +4,7 @@ import Header from '../components/header';
 import HeaderLogueado from '../components/headerLogueado';
 import '../styles/animes.css'; 
 import { Link } from 'react-router-dom';
+import Footer from '../components/footer';
 
 const fetchAnimes = async () => {
   const response = await fetch('http://localhost:3001/api/animes');
@@ -42,6 +43,7 @@ function AnimeList() {
             </div>
         ))}
         </div>
+        <Footer />
     </div>
   );
 }

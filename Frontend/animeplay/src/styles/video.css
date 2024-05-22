@@ -1,0 +1,41 @@
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .anime-details {
+    width: 95%;
+    margin: auto;
+    color: white;
+    display: flex;
+    align-items: start;
+    margin-top: 20px;
+  }
+  
+  .anime-details h2 {
+    margin-bottom: 5px;
+    width: 100%;
+  }
+  .anime-info {
+    margin-left: 10px;
+  }
+  
+  iframe {
+    width: 95%;
+    height: 550px;
+  }
+  
+  .anime-details img {
+    width: 95px; 
+    height: auto;
+    border-radius: 10px;
+  }
+  #rating {
+    align-items: center;
+    margin-left: 85%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }

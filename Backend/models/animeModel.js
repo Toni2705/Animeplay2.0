@@ -25,6 +25,10 @@ const Anime = sequelize.define('Anime', {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
+  },
+  descripcion: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
   
 }, {

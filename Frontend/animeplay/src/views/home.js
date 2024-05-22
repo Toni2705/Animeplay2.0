@@ -3,51 +3,51 @@ import HeaderLogueado from '../components/headerLogueado';
 import '../styles/home.css'; 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-let index = 0,
-  sliders,
-  timer;
-
-document.addEventListener('DOMContentLoaded', function() {
-  sliders = document.querySelectorAll(".mySlides");
-  for(let i = 0; i < sliders.length; i++) {
-    sliders[i].style.display = "none";  
-  }
-
-  document.querySelector('.prev').addEventListener('click', () => showSlides(-1));
-  document.querySelector('.next').addEventListener('click', () => showSlides(1));
-
-  document.addEventListener('keyup', (e) => {
-    if(e.keyCode == 37) {
-      showSlides(-1);
-    } else if(e.keyCode == 39) {
-      showSlides(1);
-    }
-  });
-
-  showSlides(0);
-});
-
-function showSlides(n) {
-  clearTimeout(timer);
-  sliders[index].style.display = 'none';
-  index += n;
-  if (index >= sliders.length) {
-    index = 0;
-  } else if(index < 0) {
-    index = sliders.length - 1;
-  }
-  sliders[index].style.display = "block";  
-  timer = setTimeout(showSlides, 4000, 1);
-}
+import Footer from '../components/footer';
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [animes, setAnimes] = useState([])
   useEffect(() => {
+    document.title = 'AnimePlay'
     const isLoggedInSession = sessionStorage.getItem('Usuario') !== null;
     if (isLoggedInSession) {
       setIsLoggedIn(isLoggedInSession);
     }
+    // Lógica del slider
+    let index = 0;
+    let sliders = document.querySelectorAll(".mySlides");
+    let timer;
+
+    const showSlides = (n) => {
+      clearTimeout(timer);
+      sliders[index].style.display = 'none';
+      index += n;
+      if (index >= sliders.length) {
+        index = 0;
+      } else if(index < 0) {
+        index = sliders.length - 1;
+      }
+      sliders[index].style.display = "block";  
+      timer = setTimeout(showSlides, 7000, 1);
+    };
+
+    for(let i = 0; i < sliders.length; i++) {
+      sliders[i].style.display = "none";  
+    }
+
+    document.querySelector('.prev').addEventListener('click', () => showSlides(-1));
+    document.querySelector('.next').addEventListener('click', () => showSlides(1));
+
+    document.addEventListener('keyup', (e) => {
+      if(e.keyCode == 37) {
+        showSlides(-1);
+      } else if(e.keyCode == 39) {
+        showSlides(1);
+      }
+    });
+
+    showSlides(0);
 
     fetch('http://localhost:3001/api/animes') // Realizar una solicitud GET para obtener los datos de los animes
       .then(response => {
@@ -106,6 +106,7 @@ function Home() {
           ))}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

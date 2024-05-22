@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import '../styles/login.css'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '../components/footer';
 
 const customToastStyle = {
   backgroundColor: '#333',
@@ -59,7 +60,7 @@ const Login = () => {
   }
 
   return (
-    <div className="login-container">
+    <><div className="login-container">
       <ToastContainer />
       <h2 className="login-header">¡Iniciar sesión!</h2>
       <form onSubmit={handleLogin} className="login-form">
@@ -70,8 +71,7 @@ const Login = () => {
             id="username"
             value={usuario}
             onChange={(e) => setUsername(e.target.value)}
-            className="form-input"
-          />
+            className="form-input" />
         </div>
         <div className="form-group">
           <label htmlFor="password" className="form-label">Contraseña:</label>
@@ -80,14 +80,13 @@ const Login = () => {
             id="password"
             value={contraseña}
             onChange={(e) => setPassword(e.target.value)}
-            className="form-input"
-          />
+            className="form-input" />
         </div>
         <button type="submit" className="login-button">Iniciar sesión</button>
       </form>
       <h4 className="register-link">¿No tienes cuenta de AnimePlay?</h4>
       <h4 className="login-link"><a href="/registro">¡Registrate aquí!</a></h4>
-    </div>
+    </div><Footer fixed={true} /></>
   );
 };
 

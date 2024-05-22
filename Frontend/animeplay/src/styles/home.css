@@ -1,7 +1,7 @@
 *{box-sizing: border-box;}
 body {font-family: Verdana, sans-serif; margin:0}
 .mySlides {display: none}
-img {vertical-align: middle;max-height: 400px;}
+img {vertical-align: middle;max-height: 350px;}
 
 /* Slideshow container */
 .slideshow-container {

@@ -9,10 +9,9 @@ const app = express();
 const port = 3001;
 
 app.use(express.json());
-// Configurar CORS para permitir solicitudes desde tu frontend
 const corsOptions = {
-  origin: 'http://localhost:3000', // Reemplaza con la URL de tu frontend
-  optionsSuccessStatus: 200 // Para navegadores más antiguos
+  origin: 'http://localhost:3000', 
+  optionsSuccessStatus: 200 
 };
 app.use(cors(corsOptions));
 

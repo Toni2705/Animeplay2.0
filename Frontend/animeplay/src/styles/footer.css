@@ -1,0 +1,29 @@
+.footer {
+  font-size: 12px;
+    margin-top: 60px;
+    background-color: #171717;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+  }
+  .footer-fixed {
+    position: absolute;
+    bottom: 0;
+  }
+  
+  .footer-content p {
+    margin: 5px 0;
+  }
+  
+  .footer-content a {
+    color: #f0a500;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .footer-content a:hover {
+    text-decoration: underline;
+  }
+  
