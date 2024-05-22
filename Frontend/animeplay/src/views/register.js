@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate } from 'react-router-dom';
 import Footer from '../components/footer';
+import { Link } from 'react-router-dom';
 
 const customToastStyle = {
   backgroundColor: '#333',
@@ -21,7 +22,7 @@ const customToastConfig = {
 
 const Registro = ({ history }) => {
   const [usuario, setUsername] = useState('');
-  const [contraseña, setPassword] = useState('');
+  const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -29,23 +30,23 @@ const Registro = ({ history }) => {
     e.preventDefault();
 
     try {
-      console.log(usuario, contraseña, email)
+      console.log(usuario, password, email)
       const response = await fetch('http://localhost:3001/api/register', { // Cambiar la URL según la configuración de tu backend
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, usuario, contraseña})
+        body: JSON.stringify({ email, usuario, password})
       });
 
       if (response.ok) {
-        setLoggedIn(true)
         console.log(loggedIn)
 
         // El inicio de sesión fue exitoso
         const data = await response.json();
         console.log('Respuesta del backend:', data);
         sessionStorage.setItem('Usuario',JSON.stringify(data.user))
+        setLoggedIn(true)
 
       } else {
         // El inicio de sesión falló
@@ -66,6 +67,7 @@ const Registro = ({ history }) => {
   return (
     <><div className="registro-container">
       <ToastContainer />
+      <Link to="/" className="link"><img src='http://localhost:3001/images/logo.png' alt='Logo' className='logo'/></Link>
       <h2 className="registro-header">¡Regístrate aquí!</h2>
       <form className="registro-form" onSubmit={handleRegistro}>
         <div className="form-group">
@@ -91,7 +93,7 @@ const Registro = ({ history }) => {
           <input
             type="password"
             id="password"
-            value={contraseña}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="form-input" />
         </div>

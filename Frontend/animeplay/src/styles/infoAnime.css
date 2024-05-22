@@ -55,3 +55,34 @@
     background-color: #ff6600; 
   }
   
+  .populares1 {
+    margin-top: 40px;
+    text-align: center;
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center; 
+  }
+  .populares1 h3{
+    margin-bottom: 10px;
+  }
+  .anime-container1 {
+    display: flex;
+    flex-wrap: wrap;
+    
+  }
+  
+  .anime-card1 {
+    margin: 10px; 
+    text-align: center; 
+  }
+  
+  .anime-card1 img {
+    width: 70%; 
+    height: auto; 
+  }
+  
+  .titulo {
+    margin-top: 10px; 
+  }
+  

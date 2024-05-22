@@ -5,6 +5,8 @@ import HeaderLogueado from '../components/headerLogueado';
 import '../styles/animes.css'; 
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const fetchAnimes = async () => {
   const response = await fetch('http://localhost:3001/api/animes');
@@ -31,6 +33,7 @@ function AnimeList() {
 
   return (
     <div className='animelist'>
+      <ToastContainer />
         {isLoggedIn ? <HeaderLogueado /> : <Header />}
         <h3>¡Todos los animes!</h3>
         <div className="anime-container">

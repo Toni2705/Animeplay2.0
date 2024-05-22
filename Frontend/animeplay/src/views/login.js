@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Registro from './register';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import '../styles/login.css'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,12 +38,12 @@ const Login = () => {
       });
 
       if (response.ok) {
-        setLoggedIn(true);
-
         // El inicio de sesión fue exitoso
         const data = await response.json();
         console.log('Respuesta del backend:', data);
         sessionStorage.setItem('Usuario',JSON.stringify(data.user))
+        setLoggedIn(true);
+        
       } else {
         // El inicio de sesión falló
         toast.error('Error en inicio de sesión. Por favor, verifica tus credenciales.', customToastConfig);
@@ -62,6 +62,7 @@ const Login = () => {
   return (
     <><div className="login-container">
       <ToastContainer />
+      <Link to="/" className='link'><img src='http://localhost:3001/images/logo.png' alt='Logo' className='logo'/></Link>
       <h2 className="login-header">¡Iniciar sesión!</h2>
       <form onSubmit={handleLogin} className="login-form">
         <div className="form-group">

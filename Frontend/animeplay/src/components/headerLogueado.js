@@ -1,12 +1,202 @@
 import React, { useState } from 'react';
 import '../styles/header.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation  } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert'; 
+const customToastStyle = {
+  backgroundColor: '#333',
+  color: '#ffffff',
+};
+
+// Configuración para las notificaciones de toast
+const customToastConfig = {
+  style: customToastStyle,
+  progressStyle: {
+    backgroundColor: '#ff6600',
+  },
+};
+
+
 function HeaderLogueado() {
   const [expanded, setExpanded] = useState(false); 
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [suscrito, setSuscrito] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  const [usuario, setUsuario] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Función para manejar el clic en el botón de búsqueda
-  const handleSearchButtonClick = () => {
-    setExpanded(!expanded);
+  const handleSuscribirse = async () => {
+    const usuarioString = sessionStorage.getItem('Usuario');
+    if (usuarioString) {
+        const usuario = JSON.parse(usuarioString);
+        try {
+            const response = await fetch('http://localhost:3001/api/suscribirse', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: usuario.id })
+            });
+            const data = await response.json();
+            if (data.success) {
+              usuario.suscrito = true;
+              const usuarioActualizadoString = JSON.stringify(usuario);
+              sessionStorage.setItem('Usuario', usuarioActualizadoString);
+              toast.info('Suscripción completa. ¡Disfruta ahora de tus ventajas! ^^', customToastConfig);
+              setIsLoggedIn(true);
+              setSuscrito(true)
+            }
+        } catch (error) {
+            console.error('Error al suscribirse:', error);
+        }
+    } else{
+      toast.error('Inicie sesión primero o registrese', customToastConfig);
+    }
+    if(suscrito){
+      <Navigate to="/" />
+    }
+    
+};
+
+const handleUnSuscribirse = async () => {
+  const usuarioString = sessionStorage.getItem('Usuario');
+  if (usuarioString) {
+      const usuario = JSON.parse(usuarioString);
+      try {
+          const response = await fetch('http://localhost:3001/api/unsuscribirse', {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ id: usuario.id })
+          });
+          const data = await response.json();
+          if (data.success) {
+            usuario.suscrito = false;
+            const usuarioActualizadoString = JSON.stringify(usuario);
+            sessionStorage.setItem('Usuario', usuarioActualizadoString);
+            toast.info('Suscripción cancelada. ¡Te echaremos de menos! :c', customToastConfig);
+            setIsLoggedIn(true);
+            setSuscrito(false)
+              
+          }
+      } catch (error) {
+          console.error('Error al suscribirse:', error);
+      }
+  } else{
+    toast.error('Inicie sesión primero o registrese', customToastConfig);
+  }
+  if(!suscrito){
+    <Navigate to="/" />
+  }
+  
+};
+
+const confirmSubscription = () => {
+  const usuarioString = sessionStorage.getItem('Usuario');
+    if (usuarioString) {
+  confirmAlert({
+    title: 'Confirmar Suscripción',
+    message: '¿Deseas suscribirte por 9.99 euros?',
+    buttons: [
+      {
+        label: 'Sí',
+        onClick: handleSuscribirse
+      },
+      {
+        label: 'No',
+        onClick: () => toast.info('Suscripción cancelada', customToastConfig),
+      }
+    ]
+  });
+} else{
+  toast.error('Inicie sesión primero o registrese', customToastConfig);
+}
+};
+
+const confirmUnSubscription = () => {
+  const usuarioString = sessionStorage.getItem('Usuario');
+    if (usuarioString) {
+  confirmAlert({
+    title: 'Confirmar cancelacion de suscripcion',
+    message: '¿Deseas desuscribirse?',
+    buttons: [
+      {
+        label: 'Sí',
+        onClick: handleUnSuscribirse
+      },
+      {
+        label: 'No',
+        onClick: () => toast.info('Suscripción cancelada', customToastConfig),
+      }
+    ]
+  });
+} else{
+  toast.error('Inicie sesión primero o registrese', customToastConfig);
+}
+};
+
+const confirmLogOut = () => {
+  const usuarioString = sessionStorage.getItem('Usuario');
+    if (usuarioString) {
+  confirmAlert({
+    title: 'Cerrar sesión',
+    message: '¿Deseas cerrar sesión?',
+    buttons: [
+      {
+        label: 'Sí',
+        onClick: handleLogout
+      },
+      {
+        label: 'No',
+        onClick: () => toast.info('Suscripción cancelada', customToastConfig),
+      }
+    ]
+  });
+} else{
+  toast.error('Inicie sesión primero o registrese', customToastConfig);
+}
+};
+
+const handleSearchButtonClick = async () => {
+  setExpanded(!expanded);
+  if (searchQuery) {
+    try {
+      const response = await fetch(`http://localhost:3001/api/animes/buscar?query=${searchQuery}`);
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Error al buscar animes:', error);
+    }
+  } else {
+    setSearchResults([]);
+  }
+};
+
+const handleSearchInputChange = async (event) => {
+  const query = event.target.value;
+  setSearchQuery(query);
+
+  if (query) {
+    try {
+      const response = await fetch(`http://localhost:3001/api/buscar?query=${query}`);
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Error al buscar animes:', error);
+    }
+  } else {
+    setSearchResults([]);
+  }
+}
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    
+    return window.location.href = "/"
   };
 
   // Función para manejar clics fuera del campo de búsqueda
@@ -15,7 +205,18 @@ function HeaderLogueado() {
       setExpanded(false); 
     }
   };
+  const handleProfileClick = () => {
+    setShowDropdown(!showDropdown);
+  };
 
+  React.useEffect(() => {
+    const usuarioString = sessionStorage.getItem('Usuario');
+    if (usuarioString) {
+      const usuario = JSON.parse(usuarioString);
+      setUsuario(usuario);
+      setSuscrito(usuario.suscrito);
+    }
+  }, []);
   // Agregar un event listener para manejar clics fuera del campo de búsqueda
   React.useEffect(() => {
     document.addEventListener('click', handleOutsideClick);
@@ -26,9 +227,10 @@ function HeaderLogueado() {
 
   return (
     <header className="header">
+      <ToastContainer />
       <div className="header-container">
         <div className="logo">
-        <img src="http://localhost:3001/images/logo.png" alt="Logo" className="logo-image" />
+        <Link to="/" className='link'><img src="http://localhost:3001/images/logo.png" alt="Logo" className="logo-image" /></Link>
         </div>
         <nav className="nav">
           <ul className="nav-list">
@@ -37,12 +239,45 @@ function HeaderLogueado() {
           </ul>
         </nav>
         <div className={`search ${expanded ? 'expanded' : ''}`}>
-          <input type="text" placeholder="Buscar..." className="search-input" />
-          <button className="search-button" onClick={handleSearchButtonClick}>
-            Buscar
-          </button>
+        <input
+            type="text"
+            placeholder="Buscar..."
+            className="search-input"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+          />
+          {searchResults.length > 0 && (
+            <div className="dropdown">
+              <ul className="dropdown-list">
+                {searchResults.map((result) => (
+                  <li className='dropdown-item' key={result.id}>
+                    <Link  to={`/animes/${result.id}`} className="search-result-item">{result.titulo}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-        <Link to="/perfil"className='link' ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.4" d="M12.1207 12.78C12.0507 12.77 11.9607 12.77 11.8807 12.78C10.1207 12.72 8.7207 11.28 8.7207 9.50998C8.7207 7.69998 10.1807 6.22998 12.0007 6.22998C13.8107 6.22998 15.2807 7.69998 15.2807 9.50998C15.2707 11.28 13.8807 12.72 12.1207 12.78Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="0.34" d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></Link>
+        <div className="profile" onClick={handleProfileClick}>
+        <p>{usuario ? usuario.usuario : ''}</p>
+          <img src="http://localhost:3001/images/logos/one-piece.jpg" className='fotoPerfil' alt="Foto de perfil" />
+          {showDropdown && (
+            <div className="dropdown">
+              <ul className="dropdown-list">
+              <li className="dropdown-item" >
+                <Link  to="/" className='link' onClick={confirmLogOut}>Cerrar Sesión</Link>
+                </li>
+                <li className="dropdown-item">
+                  {suscrito ? (
+                    <Link onClick={confirmUnSubscription} className='link'><img src='http://localhost:3001/images/premium.png'alt='Premium' id='premium'/>Cancelar Suscripción</Link>
+                  ) : (
+                    <Link onClick={confirmSubscription} className='link'><img src='http://localhost:3001/images/premium.png'alt='Premium' id='premium'/>Suscribirse</Link>
+                  )}
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

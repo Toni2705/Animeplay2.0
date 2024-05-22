@@ -3,6 +3,8 @@ import '../styles/header.css';
 import { Link } from 'react-router-dom';
 function Header() {
   const [expanded, setExpanded] = useState(false); 
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Función para manejar el clic en el botón de búsqueda
   const handleSearchButtonClick = () => {
@@ -15,6 +17,22 @@ function Header() {
       setExpanded(false); 
     }
   };
+  const handleSearchInputChange = async (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+  
+    if (query) {
+      try {
+        const response = await fetch(`http://localhost:3001/api/buscar?query=${query}`);
+        const data = await response.json();
+        setSearchResults(data);
+      } catch (error) {
+        console.error('Error al buscar animes:', error);
+      }
+    } else {
+      setSearchResults([]);
+    }
+  }
 
   // Agregar un event listener para manejar clics fuera del campo de búsqueda
   React.useEffect(() => {
@@ -28,7 +46,7 @@ function Header() {
     <header className="header">
       <div className="header-container">
         <div className="logo">
-        <img src="http://localhost:3001/images/logo.png" alt="Logo" className="logo-image" />
+        <Link to="/" className='link'><img src="http://localhost:3001/images/logo.png" alt="Logo" className="logo-image" /></Link>
         </div>
         <nav className="nav">
           <ul className="nav-list">
@@ -37,10 +55,24 @@ function Header() {
           </ul>
         </nav>
         <div className={`search ${expanded ? 'expanded' : ''}`}>
-          <input type="text" placeholder="Buscar..." className="search-input" />
-          <button className="search-button" onClick={handleSearchButtonClick}>
-            Buscar
-          </button>
+        <input
+            type="text"
+            placeholder="Buscar..."
+            className="search-input"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+          />
+          {searchResults.length > 0 && (
+            <div className="dropdown">
+              <ul className="dropdown-list">
+                {searchResults.map((result) => (
+                  <li className='dropdown-item' key={result.id}>
+                    <Link  to={`/animes/${result.id}`} className="search-result-item">{result.titulo}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
         <button className="login"><Link to="/login"className='link' >Login</Link></button>
       </div>

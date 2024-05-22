@@ -47,10 +47,10 @@ function VideoPage() {
       <div className="anime-details">
         <img src={`http://localhost:3001/images/${anime.cartel}`} alt="Cartel del anime" />
         <div className="anime-info">
-          <h2>{anime.titulo}
-          <img src={`http://localhost:3001/images/like.png`} alt="Like" id="rating" /></h2>
-          <p><strong>Año:</strong> {anime.year_emision}</p>
+          <h2>{anime.titulo}</h2>
           <p>{anime.descripcion}</p>
+          <p><strong>Año:</strong> {anime.year_emision}</p>
+          
           
         </div>
     </div>

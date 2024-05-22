@@ -1,7 +1,12 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../database/db.js');
 
 const Anime = sequelize.define('Anime', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   titulo: {
     type: DataTypes.STRING,
     allowNull: false
@@ -37,6 +42,6 @@ const Anime = sequelize.define('Anime', {
 // Sincronizar el modelo con la base de datos
 Anime.sync();
 
-module.exports = Anime;
+module.exports = {Sequelize, Anime};
 
 

@@ -1,5 +1,5 @@
-const Anime = require('../models/animeModel.js')
-
+const {Anime} = require('../models/animeModel.js')
+const { Op, sequelize } = require('sequelize');
 
 exports.getAllAnimes = async (req, res) => {
   try {
@@ -27,3 +27,42 @@ exports.getAnimeById = async (req, res) => {
       return res.status(500).json({ message: 'Error interno del servidor' });
     }
   };
+
+  exports.searchAnimesByName = async (req, res) => {
+    try {
+        const { query } = req.query;
+        if (!query) {
+            return res.status(400).json({ message: 'Falta el parámetro de consulta' });
+        }
+
+        // Realizar la búsqueda de animes por nombre utilizando el modelo Anime
+        const animes = await Anime.findAll({
+          where: {
+            titulo: {
+                [Op.like]: `%${query}%`
+            }
+        },
+        attributes: ['id', 'titulo']
+        });
+
+        return res.status(200).json(animes);
+    } catch (error) {
+        console.error('Error al buscar animes:', error);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+    }
+};
+exports.getSuggestedAnimes = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const suggestedAnimes = await Anime.findAll({
+      where: {
+        id: { [Op.not]: parseInt(id) } 
+      },
+      limit: 5 
+    });
+    res.status(200).json({ suggestedAnimes });
+  } catch (error) {
+    console.error('Error al obtener animes sugeridos:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};

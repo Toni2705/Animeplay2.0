@@ -9,6 +9,7 @@
     width: 100%;
   }
   .footer-fixed {
+    border: 2px white solid;
     position: absolute;
     bottom: 0;
   }
@@ -18,7 +19,7 @@
   }
   
   .footer-content a {
-    color: #f0a500;
+    color: #ff6600;
     text-decoration: none;
     margin: 0 10px;
   }

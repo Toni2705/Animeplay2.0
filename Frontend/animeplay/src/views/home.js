@@ -4,15 +4,19 @@ import '../styles/home.css';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/footer';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [animes, setAnimes] = useState([])
+  
+  
   useEffect(() => {
-    document.title = 'AnimePlay'
+    document.title = 'AnimePlay';
     const isLoggedInSession = sessionStorage.getItem('Usuario') !== null;
     if (isLoggedInSession) {
-      setIsLoggedIn(isLoggedInSession);
+      setIsLoggedIn(true);
     }
     // Lógica del slider
     let index = 0;
@@ -65,6 +69,7 @@ function Home() {
   }, []);
   return (
     <div>
+      <ToastContainer />
       {isLoggedIn ? <HeaderLogueado /> : <Header />}
       <div className="slideshow-container">
         <div className="mySlides fade">
@@ -86,7 +91,7 @@ function Home() {
         </div>
         <div className="mySlides fade">
           <div className="numbertext">4 / 4</div>
-          <img src="http://localhost:3001/images/banner4.png" style={{ width: '100%' }} alt='Banner Haikyuu' />
+          <img src="http://localhost:3001/images/banner4.jpg" style={{ width: '100%' }} alt='Banner Haikyuu' />
           <div className="text"></div>
         </div>
         
