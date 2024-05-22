@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* Asegura que el popup se muestre sobre otros elementos */
+    z-index: 9999; 
   }
   
   .react-confirm-alert {
@@ -20,13 +20,13 @@
     background: #333;
     color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center; /* Centra el texto dentro del popup */
+    text-align: center; 
   }
   
   .react-confirm-alert-button-group {
     display: flex;
     justify-content: center;
-    gap: 10px; /* Añade espacio entre los botones */
+    gap: 10px; 
   }
   
   .react-confirm-alert-button-group button {
