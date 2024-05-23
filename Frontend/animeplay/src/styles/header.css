@@ -1,4 +1,5 @@
 .header {
+  width: 100%;
   background-color: #171717;
   color: #fff;
   padding: 10px 20px;
@@ -9,10 +10,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative; 
+  position: relative;
 }
 
 .logo {
+  max-width: 100px;
   flex: 0 0 auto;
 }
 
@@ -29,17 +31,15 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
-  margin-left: -8%;
   display: flex;
+  flex-wrap: wrap;
 }
-
 
 .nav-item {
   text-align: center;
-  margin-right: 10px;
+  margin-right: 5px;
   width: 80px;
 }
-
 
 .nav-link {
   color: #fff;
@@ -52,7 +52,7 @@
 }
 
 .search {
-  position: relative; /* Permitir posicionar el campo de búsqueda */
+  position: relative;
 }
 
 .search-input {
@@ -136,12 +136,10 @@
   border-bottom: 1px solid #ff6600;
   margin-bottom: 5px;
 }
+
 .dropdown-item:last-child {
   align-items: center;
   border: none;
-}
-
-.dropdown-item:last-child {
   margin-bottom: 0;
 }
 
@@ -164,4 +162,59 @@
   margin-right: 10px;
   width: 15px;
   height: auto;
+}
+
+/* Estilos responsive solo para móviles */
+@media (max-width: 576px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo-image {
+    width: 80px;
+  }
+
+  .nav {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .header-right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .search-input, .search-button, .login {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .profile {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .profile p {
+    display: none;
+  }
+
+  .dropdown {
+    width: 100%;
+    right: auto;
+  }
 }

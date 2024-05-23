@@ -13,6 +13,7 @@ function VideoPage() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const videoRef = useRef(null);
     const { id } = useParams();
+    const [suscrito, setSuscrito] = useState(false);
 
     useEffect(() => {
         
@@ -20,8 +21,15 @@ function VideoPage() {
         const isLoggedInSession = sessionStorage.getItem('Usuario') !== null;
         
         if (isLoggedInSession) {
-          setIsLoggedIn(isLoggedInSession);
+          setIsLoggedIn(true);
+          try {
+            const usuario = JSON.parse(isLoggedInSession);
+            setSuscrito(usuario.suscrito); 
+          } catch (error) {
+            console.error('Error al analizar los datos del usuario:', error);
+          }
         }
+
         
         const fetchAnime = async () => {
           try {
@@ -74,8 +82,8 @@ function VideoPage() {
         }
     };
 
-    if (!anime) {
-        return <div>Cargando...</div>;
+    if (!anime || !isLoggedIn) {
+        return <div id='noPass'>No tienes permiso para acceder aqui...</div>;
     }
 
     return (

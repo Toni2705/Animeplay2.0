@@ -1,4 +1,6 @@
-
+#noPass{
+  color: white;
+}
 .video-container {
     display: flex;
     justify-content: center;
