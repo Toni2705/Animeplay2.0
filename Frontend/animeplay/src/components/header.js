@@ -23,7 +23,7 @@ function Header() {
   
     if (query) {
       try {
-        const response = await fetch(`http://localhost:3001/api/buscar?query=${query}`);
+        const response = await fetch(`httpss://localhost:3001/api/buscar?query=${query}`);
         const data = await response.json();
         setSearchResults(data);
       } catch (error) {
@@ -46,7 +46,7 @@ function Header() {
     <header className="header">
       <div className="header-container">
         <div className="logo">
-        <Link to="/" className='link'><img src="http://localhost:3001/images/logo.png" alt="Logo" className="logo-image" /></Link>
+        <Link to="/" className='link'><img src="httpss://localhost:3001/images/logo.png" alt="Logo" className="logo-image" /></Link>
         </div>
         <nav className="nav">
           <ul className="nav-list">
